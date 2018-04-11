@@ -4,14 +4,16 @@ const MapWrapper = function(container, coords, zoom){
     zoom: zoom
   });
   this.markers = [];
-}
+};
 
-MapWrapper.prototype.addMarker = function (coords) {
+MapWrapper.prototype.addMarker = function (coords, text) {
   const marker = new google.maps.Marker({
     position: coords,
+    animation: google.maps.Animation.DROP,
     map: this.googleMap
   })
   this.markers.push(marker);
+  return marker;
 };
 
 MapWrapper.prototype.addClickEvent = function () {
@@ -34,20 +36,19 @@ MapWrapper.prototype.bounceMarkers = function () {
   })
 };
 
-MapWrapper.prototype.toChicago = function () {
-  this.googleMap.setCenter({lat:41.878114, lng:-87.629798});
+MapWrapper.prototype.toAPlace = function (coords) {
+  this.googleMap.setCenter(coords);
 };
 
-MapWrapper.prototype.addMarkerInfo = function (location, info) {
-  this.markers.forEach(function(marker){
-    if(marker.position === location){
-      const infoWindow = new google.maps.InfoWindow({
-        content: info
-      });
-      marker.addListener('click', function(){
-        infoWindow.open(this.googleMap, marker);
-      }.bind(this));
-    }
+MapWrapper.prototype.addMarkerInfo = function (marker, text) {
+
+  const info = new google.maps.InfoWindow({
+    content: text
+  });
+
+  marker.addListener('click', function(){
+    debugger;
+    info.open(this, marker);
   });
 
 };
