@@ -46,7 +46,7 @@ MapWrapper.prototype.addMarkerInfo = function (location, info) {
       });
       marker.addListener('click', function(){
         infoWindow.open(this.googleMap, marker);
-      });
+      }.bind(this));
     }
   });
 
